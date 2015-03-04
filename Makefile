@@ -51,6 +51,6 @@ force_pull:
 	git reset --hard HEAD
 	git pull
 
+#removes all the ~ files, which are just backups
 cleanup:
-	#removes all the ~ files, which are just backups
 	find ./ -name '*~' | xargs rm
