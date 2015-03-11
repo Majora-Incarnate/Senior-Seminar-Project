@@ -15,11 +15,13 @@ class Quad_Tree
 {
 public:
 	Quad_Tree(float, float, float, float, int = 0, int = -1);
+	~Quad_Tree();
 
 	void Subdivide();
 	bool Within(const Object *) const;
+	bool Intersects(const Object *) const;
 	void Insert(Object *);
-	std::list<Object *> Test(Object *);
+	int Test(Object *);
 
 	void Render();
 

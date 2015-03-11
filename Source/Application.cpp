@@ -133,22 +133,15 @@ void Application::Loop() {
 
     Quad_Tree blah(0, 0, System::window_width, System::window_height);
 
-    blah.Render();
-
     for (int i = 0; i < number_of_objects; i++)
         blah.Insert(&circles[i]);
+
+    blah.Render();
 
     calc_time = omp_get_wtime();
 
     for (int i = 0; i < number_of_objects; i++)
-    {
-        std::list<Object *> temp = blah.Test(&circles[i]);
-        for (std::list<Object *>::iterator it = temp.begin(); it != temp.end(); it++)
-            if (*it != &circles[i])
-                if (circles[i].Intersects(**it))
-                    collision_count++;
-
-    }
+        collision_count += blah.Test(&circles[i]);
 
     calc_time = omp_get_wtime() - calc_time;
 

@@ -8,8 +8,8 @@ const char * System::WINDOW_ICON_FILEPATH = "./Art/Icon.bmp";
 const char * System::APPLICATION_TITLE = "Collision Detection Project";
 const char * System::APPLICATION_VERSION = "0.0.0.0";
 
-const int System::DEFAULT_WINDOW_HEIGHT = 720;
-const int System::DEFAULT_WINDOW_WIDTH = 1280;
+const int System::DEFAULT_WINDOW_HEIGHT = 800;
+const int System::DEFAULT_WINDOW_WIDTH = 800;
 
 SDL_Window * System::window_surface = NULL;
 SDL_GLContext System::opengl_context = NULL;
