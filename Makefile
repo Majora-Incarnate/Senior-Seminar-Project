@@ -30,6 +30,12 @@ c:
 	rm -f Source/*.o
 	rm -f $(EXE)
 
+debug:
+	#
+
+d:
+	#
+
 pull:
 	git pull
 

@@ -8,7 +8,7 @@
 
 
 
-#define num_threads 4
+#define num_threads 2
 
 
 
@@ -104,7 +104,7 @@ void Application::Loop() {
     printf("Control Time: %f sec\n", calc_time);
 
 
-    /*collision_count = 0;
+    collision_count = 0;
 
     calc_time = omp_get_wtime();
 
@@ -126,19 +126,19 @@ void Application::Loop() {
     calc_time = omp_get_wtime() - calc_time;
 
     printf("Collision Count: %d\t", collision_count);
-    printf("Multithreaded Time: %f sec\n", calc_time);*/
+    printf("Multithreaded Time: %f sec\n", calc_time);
 
 
     collision_count = 0;
+
+    calc_time = omp_get_wtime();
 
     Quad_Tree blah(0, 0, System::window_width, System::window_height);
 
     for (int i = 0; i < number_of_objects; i++)
         blah.Insert(&circles[i]);
 
-    blah.Render();
-
-    calc_time = omp_get_wtime();
+    //blah.Render();
 
     for (int i = 0; i < number_of_objects; i++)
         collision_count += blah.Test(&circles[i]);
