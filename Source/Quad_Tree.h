@@ -21,7 +21,7 @@ public:
 	bool Within(const Object *) const;
 	bool Intersects(const Object *) const;
 	void Insert(Object *);
-	int Test(Object *);
+	int Test(Object *, int &);
 
 	void Render();
 

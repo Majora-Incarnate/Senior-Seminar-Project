@@ -102,13 +102,13 @@ bool Collider::Test(const Collider * rhs) const
 		if (children[0] == NULL && rhs->children[0] != NULL)
 		{
 			for (int i = 0; i < NUMBER_OF_CHILDREN; i++)
-				if (Intersects(rhs->children[i]))
+				if (rhs->children[i]->Test(this))
 					return true;
 		}
 		else if (children[0] != NULL && rhs->children[0] == NULL)
 		{
 			for (int i = 0; i < NUMBER_OF_CHILDREN; i++)
-				if (rhs->Intersects(children[i]))
+				if (children[i]->Test(rhs))
 					return true;
 		}
 		else if (children[0] != NULL && rhs->children[0] != NULL)
@@ -118,9 +118,9 @@ bool Collider::Test(const Collider * rhs) const
 					if (children[i]->Test(rhs->children[j]))
 						return true;
 		}
-		else
-			return true;
+		
+		return true;
 	}
-	else
-		return false;
+	
+	return false;
 }

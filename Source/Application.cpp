@@ -15,7 +15,7 @@
 Application::Application() {
     is_running = true;
 
-    number_of_objects = 20;
+    number_of_objects = 200;
 
     circles = new Object[number_of_objects];
 
@@ -101,6 +101,7 @@ void Application::Loop() {
     calc_time = omp_get_wtime() - calc_time;
 
     printf("Collision Count: %d\t", collision_count);
+    printf("Comparison Count: %d\t", (number_of_objects * (number_of_objects + 1)) / 2);
     printf("Control Time: %f sec\n", calc_time);
 
 
@@ -130,6 +131,7 @@ void Application::Loop() {
 
 
     collision_count = 0;
+    int comparison_count = 0;
 
     calc_time = omp_get_wtime();
 
@@ -143,11 +145,12 @@ void Application::Loop() {
     calc_time = omp_get_wtime();
 
     for (int i = 0; i < number_of_objects; i++)
-        collision_count += blah.Test(&circles[i]);
+        collision_count += blah.Test(&circles[i], comparison_count);
 
     calc_time = omp_get_wtime() - calc_time;
 
     printf("Collision Count: %d\t", collision_count);
+    printf("Comparison Count: %d\t", comparison_count);
     printf("Quad Tree Time: %f sec\n", calc_time);
 
 

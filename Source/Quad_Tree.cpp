@@ -79,10 +79,10 @@ void Quad_Tree::Subdivide()
 
 bool Quad_Tree::Within(const Object * other) const
 {
-	return 	other->x - other->r > x 	&&
-			other->x + other->r < x + w &&
-			other->y - other->r > y 	&&
-			other->y + other->r < y + h;
+	return 	other->x > x 	 &&
+			other->x < x + w &&
+			other->y > y 	 &&
+			other->y < y + h;
 }
 
 
@@ -120,20 +120,26 @@ void Quad_Tree::Insert(Object * other)
 
 
 
-int Quad_Tree::Test(Object * other)
+int Quad_Tree::Test(Object * other, int & c)
 {
 	objects.remove(other);
 
 	int temp = 0;
 
 	if (divisions[0] != NULL)
+	{
 		for (int i = 0; i < subdivision_count; i++)
 			if (divisions[i]->Intersects(other))
-				temp += divisions[i]->Test(other);
+				temp += divisions[i]->Test(other, c);
+	}
 
 	for (std::list<Object *>::iterator it = objects.begin(); it != objects.end(); ++it)
+	{
+		c++;
+
 		if (other->Intersects(**it))
 			temp++;
+	}
 
 	return temp;
 }
