@@ -5,6 +5,7 @@
 
 #include "Color.h"
 #include "Video_Engine.h"
+#include "Collider.h"
 
 
 
@@ -13,6 +14,7 @@ class Object
 public:
 	float x, y, r, v, a;
 	Color c;
+	Collider b;
 
 	Object();
 

@@ -15,7 +15,7 @@
 Application::Application() {
     is_running = true;
 
-    number_of_objects = 500;
+    number_of_objects = 20;
 
     circles = new Object[number_of_objects];
 
@@ -104,7 +104,7 @@ void Application::Loop() {
     printf("Control Time: %f sec\n", calc_time);
 
 
-    collision_count = 0;
+    /*collision_count = 0;
 
     calc_time = omp_get_wtime();
 
@@ -126,7 +126,7 @@ void Application::Loop() {
     calc_time = omp_get_wtime() - calc_time;
 
     printf("Collision Count: %d\t", collision_count);
-    printf("Multithreaded Time: %f sec\n", calc_time);
+    printf("Multithreaded Time: %f sec\n", calc_time);*/
 
 
     collision_count = 0;
@@ -139,6 +139,8 @@ void Application::Loop() {
         blah.Insert(&circles[i]);
 
     //blah.Render();
+
+    calc_time = omp_get_wtime();
 
     for (int i = 0; i < number_of_objects; i++)
         collision_count += blah.Test(&circles[i]);
