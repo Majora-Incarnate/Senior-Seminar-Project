@@ -26,9 +26,10 @@ private:
     Object * circles;
 
     double double_for_average;
+    double multiprocess_average;
     double quad_tree_average;
-    int double_for_count;
-    int quad_tree_count;
+    double hilbert_rtree_average;
+    int frame_count;
 };
 
 

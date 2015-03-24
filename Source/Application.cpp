@@ -15,12 +15,13 @@
 Application::Application() {
     is_running = true;
 
-    number_of_objects = 250;
+    number_of_objects = 333;
 
     double_for_average = 0.0;
+    multiprocess_average = 0.0;
     quad_tree_average = 0.0;
-    double_for_count = 0;
-    quad_tree_count = 0;
+    hilbert_rtree_average = 0.0;
+    frame_count = 0;
 
     circles = new Object[number_of_objects];
 
@@ -80,7 +81,10 @@ void Application::Events() {
 }
 
 void Application::Loop() {
-    Clock::Frame_Control.Update();   
+    Clock::Frame_Control.Update();
+
+
+    frame_count++;  
 
 
     glClear(GL_COLOR_BUFFER_BIT);
@@ -94,7 +98,14 @@ void Application::Loop() {
     }
 
 
+
+    //====================================================//
+    //====================================================//
+    //------------BEGINNING OF DOUBLE FOR TEST------------//
+    //====================================================//
+    //====================================================//
     int collision_count = 0;
+    int comparison_count = 0;
 
     double calc_time = omp_get_wtime();
 
@@ -105,21 +116,29 @@ void Application::Loop() {
 
     calc_time = omp_get_wtime() - calc_time;
     double_for_average += calc_time;
-    double_for_count++;
 
-    if (double_for_count >= System::fps_limit)
+    if (frame_count >= System::fps_limit)
     {
-        printf("Double For Average Time: %f sec\n", double_for_average / double_for_count);
-        double_for_count = 0;
+        printf("Double For Average Time: %f sec\n", double_for_average / frame_count);
         double_for_average = 0.0;
     }
 
     //printf("Collision Count: %d\t", collision_count);
     //printf("Comparison Count: %d\t", (number_of_objects * (number_of_objects + 1)) / 2);
     //printf("Double For Average Time: %f sec\n", calc_time);
+    //====================================================//
+    //====================================================//
+    //====================================================//
 
 
-    /*collision_count = 0;
+
+    //====================================================//
+    //====================================================//
+    //-----------BEGINNING OF MULTIPROCESS TEST-----------//
+    //====================================================//
+    //====================================================//
+    collision_count = 0;
+    comparison_count = 0;
 
     calc_time = omp_get_wtime();
 
@@ -139,13 +158,30 @@ void Application::Loop() {
 	}
 
     calc_time = omp_get_wtime() - calc_time;
+    multiprocess_average += calc_time;
 
-    printf("Collision Count: %d\t", collision_count);
-    printf("Multithreaded Time: %f sec\n", calc_time);*/
+    if (frame_count >= System::fps_limit)
+    {
+        printf("Multithreaded Average Time: %f sec\n", multiprocess_average / frame_count);
+        multiprocess_average = 0.0;
+    }
+
+    //printf("Collision Count: %d\t", collision_count);
+    //printf("Comparison Count: %d\t", (number_of_objects * (number_of_objects + 1)) / 2);
+    //printf("Multithreaded Time: %f sec\n", calc_time);*/
+    //====================================================//
+    //====================================================//
+    //====================================================//
 
 
+
+    //====================================================//
+    //====================================================//
+    //-------------BEGINNING OF QUADTREE TEST-------------//
+    //====================================================//
+    //====================================================//
     collision_count = 0;
-    int comparison_count = 0;
+    comparison_count = 0;
 
     calc_time = omp_get_wtime();
 
@@ -163,21 +199,58 @@ void Application::Loop() {
 
     calc_time = omp_get_wtime() - calc_time;
     quad_tree_average += calc_time;
-    quad_tree_count++;
 
-    if (quad_tree_count >= System::fps_limit)
+    if (frame_count >= System::fps_limit)
     {
-        printf("Quad Tree Average Time: %f sec\n\n", quad_tree_average / quad_tree_count);
-        quad_tree_count = 0;
+        printf("Quad Tree Average Time: %f sec\n", quad_tree_average / frame_count);
         quad_tree_average = 0.0;
     }
 
     //printf("Collision Count: %d\t", collision_count);
     //printf("Comparison Count: %d\t", comparison_count);
     //printf("Quad Tree Time: %f sec\n", calc_time);
+    //====================================================//
+    //====================================================//
+    //====================================================//
 
 
-    //printf("\n");
+
+    //====================================================//
+    //====================================================//
+    //----------BEGINNING OF HILBERT R-TREE TEST----------//
+    //====================================================//
+    //====================================================//
+    collision_count = 0;
+    comparison_count = 0;
+
+    calc_time = omp_get_wtime();
+
+    //Add Stuff
+
+    calc_time = omp_get_wtime() - calc_time;
+    hilbert_rtree_average += calc_time;
+
+    if (frame_count >= System::fps_limit)
+    {
+        printf("Hilbert R-Tree Average Time: %f sec\n", hilbert_rtree_average / frame_count);
+        hilbert_rtree_average = 0.0;
+    }
+
+    //printf("Collision Count: %d\t", collision_count);
+    //printf("Comparison Count: %d\t", comparison_count);
+    //printf("Hilbert R-Tree Time: %f sec\n", calc_time);
+    //====================================================//
+    //====================================================//
+    //====================================================//
+
+
+
+    if (frame_count >= System::fps_limit)
+    {
+        printf("\n");
+        frame_count = 0;
+    }
+
 
 
     SDL_GL_SwapWindow(System::window_surface);
