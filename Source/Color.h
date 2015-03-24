@@ -54,6 +54,7 @@ static const Color LIGHT_RED(1, 0, 0, 0.5);
 static const Color LIGHT_GREEN(0, 1, 0, 0.5);
 static const Color LIGHT_GRAY(0.5, 0.5, 0.5, 0.5);
 
+static const Color COLLISION(1, 0, 0, 0.5);
 
 
 #endif

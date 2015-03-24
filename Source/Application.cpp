@@ -15,7 +15,12 @@
 Application::Application() {
     is_running = true;
 
-    number_of_objects = 200;
+    number_of_objects = 250;
+
+    double_for_average = 0.0;
+    quad_tree_average = 0.0;
+    double_for_count = 0;
+    quad_tree_count = 0;
 
     circles = new Object[number_of_objects];
 
@@ -99,10 +104,19 @@ void Application::Loop() {
 				collision_count++;
 
     calc_time = omp_get_wtime() - calc_time;
+    double_for_average += calc_time;
+    double_for_count++;
 
-    printf("Collision Count: %d\t", collision_count);
-    printf("Comparison Count: %d\t", (number_of_objects * (number_of_objects + 1)) / 2);
-    printf("Control Time: %f sec\n", calc_time);
+    if (double_for_count >= System::fps_limit)
+    {
+        printf("Double For Average Time: %f sec\n", double_for_average / double_for_count);
+        double_for_count = 0;
+        double_for_average = 0.0;
+    }
+
+    //printf("Collision Count: %d\t", collision_count);
+    //printf("Comparison Count: %d\t", (number_of_objects * (number_of_objects + 1)) / 2);
+    //printf("Double For Average Time: %f sec\n", calc_time);
 
 
     /*collision_count = 0;
@@ -142,19 +156,28 @@ void Application::Loop() {
 
     //blah.Render();
 
-    calc_time = omp_get_wtime();
+    //calc_time = omp_get_wtime();
 
     for (int i = 0; i < number_of_objects; i++)
         collision_count += blah.Test(&circles[i], comparison_count);
 
     calc_time = omp_get_wtime() - calc_time;
+    quad_tree_average += calc_time;
+    quad_tree_count++;
 
-    printf("Collision Count: %d\t", collision_count);
-    printf("Comparison Count: %d\t", comparison_count);
-    printf("Quad Tree Time: %f sec\n", calc_time);
+    if (quad_tree_count >= System::fps_limit)
+    {
+        printf("Quad Tree Average Time: %f sec\n\n", quad_tree_average / quad_tree_count);
+        quad_tree_count = 0;
+        quad_tree_average = 0.0;
+    }
+
+    //printf("Collision Count: %d\t", collision_count);
+    //printf("Comparison Count: %d\t", comparison_count);
+    //printf("Quad Tree Time: %f sec\n", calc_time);
 
 
-    printf("\n");
+    //printf("\n");
 
 
     SDL_GL_SwapWindow(System::window_surface);

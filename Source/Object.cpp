@@ -16,10 +16,10 @@ Object::Object()
 	c.a = 0.5f;
 
 	b = Collider(x, y, r);
-	/*b.Subdivide();
+	b.Subdivide();
 
 	if (rand() % 2)
-		b.Subdivide();*/
+		b.Subdivide();
 }
 
 

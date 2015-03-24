@@ -85,12 +85,12 @@ void Collider::Subdivide()
 
 bool Collider::Intersects(const Collider * rhs) const
 {
-	float dx = x + r - rhs->x + rhs->r;
-	float dy = y + r - rhs->y + rhs->r;
+	float dx = x - rhs->x;
+	float dy = y - rhs->y;
 	float dr = r + rhs->r;
 
 	return sqrt(pow(dx, 2) + pow(dy, 2)) <= dr;
-	return dx * dx + dy * dy <= dr * dr;
+	//return dx * dx + dy * dy <= dr * dr;
 }
 
 
@@ -103,22 +103,36 @@ bool Collider::Test(const Collider * rhs) const
 		{
 			for (int i = 0; i < NUMBER_OF_CHILDREN; i++)
 				if (rhs->children[i]->Test(this))
+				{
+					Video_Engine::DrawCircle(x, y, r, &COLLISION);
+					Video_Engine::DrawCircle(rhs->x, rhs->y, rhs->r, &COLLISION);
 					return true;
+				}
 		}
 		else if (children[0] != NULL && rhs->children[0] == NULL)
 		{
 			for (int i = 0; i < NUMBER_OF_CHILDREN; i++)
 				if (children[i]->Test(rhs))
+				{
+					Video_Engine::DrawCircle(x, y, r, &COLLISION);
+					Video_Engine::DrawCircle(rhs->x, rhs->y, rhs->r, &COLLISION);
 					return true;
+				}
 		}
 		else if (children[0] != NULL && rhs->children[0] != NULL)
 		{
 			for (int i = 0; i < NUMBER_OF_CHILDREN; i++)
 				for (int j = 0; j < NUMBER_OF_CHILDREN; j++)
 					if (children[i]->Test(rhs->children[j]))
+					{
+						Video_Engine::DrawCircle(x, y, r, &COLLISION);
+						Video_Engine::DrawCircle(rhs->x, rhs->y, rhs->r, &COLLISION);
 						return true;
+					}
 		}
 		
+		Video_Engine::DrawCircle(x, y, r, &COLLISION);
+		Video_Engine::DrawCircle(rhs->x, rhs->y, rhs->r, &COLLISION);
 		return true;
 	}
 	

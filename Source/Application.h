@@ -24,6 +24,11 @@ private:
 
     int number_of_objects;
     Object * circles;
+
+    double double_for_average;
+    double quad_tree_average;
+    int double_for_count;
+    int quad_tree_count;
 };
 
 

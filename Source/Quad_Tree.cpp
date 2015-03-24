@@ -105,15 +105,33 @@ void Quad_Tree::Insert(Object * other)
 	}
 	else
 	{
+		bool flag = true;
+
 		if (divisions[0]->Within(other))
+		{
+			flag = false;
 			divisions[0]->Insert(other);
-		else if (divisions[1]->Within(other))
+		}
+
+		if (divisions[1]->Within(other))
+		{
+			flag = false;
 			divisions[1]->Insert(other);
-		else if (divisions[2]->Within(other))
+		}
+
+		if (divisions[2]->Within(other))
+		{
+			flag = false;
 			divisions[2]->Insert(other);
-		else if (divisions[3]->Within(other))
+		}
+
+		if (divisions[3]->Within(other))
+		{
+			flag = false;
 			divisions[3]->Insert(other);
-		else
+		}
+
+		if (flag)
 			objects.push_front(other);
 	}
 }
