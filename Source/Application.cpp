@@ -5,6 +5,7 @@
 #include "Clock.h"
 #include "System.h"
 #include "Quad_Tree.h"
+#include "HR_Tree.h"
 
 
 
@@ -123,9 +124,9 @@ void Application::Loop() {
         double_for_average = 0.0;
     }
 
-    //printf("Collision Count: %d\t", collision_count);
-    //printf("Comparison Count: %d\t", (number_of_objects * (number_of_objects + 1)) / 2);
-    //printf("Double For Average Time: %f sec\n", calc_time);
+    // printf("Collision Count: %d\t", collision_count);
+    // printf("Comparison Count: %d\t", (number_of_objects * (number_of_objects + 1)) / 2);
+    // printf("Double For Average Time: %f sec\n", calc_time);
     //====================================================//
     //====================================================//
     //====================================================//
@@ -206,9 +207,9 @@ void Application::Loop() {
         quad_tree_average = 0.0;
     }
 
-    //printf("Collision Count: %d\t", collision_count);
-    //printf("Comparison Count: %d\t", comparison_count);
-    //printf("Quad Tree Time: %f sec\n", calc_time);
+    // printf("Collision Count: %d\t", collision_count);
+    // printf("Comparison Count: %d\t", comparison_count);
+    // printf("Quad Tree Time: %f sec\n", calc_time);
     //====================================================//
     //====================================================//
     //====================================================//
@@ -225,20 +226,26 @@ void Application::Loop() {
 
     calc_time = omp_get_wtime();
 
-    //Add Stuff
+    HR_Tree hrtree;
+
+    for (int i = 0; i < number_of_objects; i++)
+        hrtree.insert(&circles[i]);
+
+    for (int i = 0; i < number_of_objects; i++)
+        collision_count += hrtree.search(&circles[i], comparison_count);
 
     calc_time = omp_get_wtime() - calc_time;
     hilbert_rtree_average += calc_time;
 
     if (frame_count >= System::fps_limit)
     {
-        printf("Hilbert R-Tree Average Time: %f sec\n", hilbert_rtree_average / frame_count);
+        printf("Index Tree Average Time: %f sec\n", hilbert_rtree_average / frame_count);
         hilbert_rtree_average = 0.0;
     }
 
-    //printf("Collision Count: %d\t", collision_count);
-    //printf("Comparison Count: %d\t", comparison_count);
-    //printf("Hilbert R-Tree Time: %f sec\n", calc_time);
+    // printf("Collision Count: %d\t", collision_count);
+    // printf("Comparison Count: %d\t", comparison_count);
+    // printf("Index Tree Time: %f sec\n", calc_time);
     //====================================================//
     //====================================================//
     //====================================================//

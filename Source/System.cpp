@@ -16,6 +16,7 @@ SDL_GLContext System::opengl_context = NULL;
 double System::fps_limit = System::DEFAULT_FPS_LIMIT;
 int System::window_height = DEFAULT_WINDOW_HEIGHT;
 int System::window_width = DEFAULT_WINDOW_WIDTH;
+unsigned int System::debug_flag = 0xFFFFFFFF;
 
 
 

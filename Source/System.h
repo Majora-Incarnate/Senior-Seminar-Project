@@ -42,6 +42,7 @@ public:
 	static double fps_limit;
 	static int window_height;
 	static int window_width;
+	static unsigned int debug_flag;
 
 	/*Math Variables*/
 

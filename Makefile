@@ -4,7 +4,7 @@ CXXFLAGS 	= 	-fopenmp -g -Wall -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf -lSDL
 OBJDIR 		= 	Source
 OBJECTS 	= 	Application.o Application_Event.o Event_Handler.o \
 		        Clock.o System.o \
-		        Object.o Collider.o Quad_Tree.o \
+		        Object.o Collider.o Quad_Tree.o HR_Tree.o \
 		        Color.o Video_Engine.o
 
 all:
