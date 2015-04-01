@@ -29,6 +29,14 @@ class SBBSTNode
             height = 0;
         }
 
+
+
+         ~SBBSTNode()
+         {
+            delete left;
+            delete right;
+         }
+
 };
 
 
@@ -43,6 +51,13 @@ class SelfBalancingBinarySearchTree
          SelfBalancingBinarySearchTree()
          {
              root = NULL;
+         }
+
+
+
+         ~SelfBalancingBinarySearchTree()
+         {
+            delete root;
          }
 
  

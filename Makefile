@@ -31,10 +31,10 @@ c:
 	rm -f $(EXE)
 
 debug:
-	#
+	valgrind ./Project
 
 d:
-	#
+	valgrind ./Project
 
 pull:
 	git pull

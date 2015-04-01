@@ -3,7 +3,7 @@
 
 
 
-const int HR_Tree::n = 32;
+const int HR_Tree::n = 16;
 
 
 
@@ -23,21 +23,6 @@ HR_Tree::~HR_Tree()
 
 void HR_Tree::insert(Object * other)
 {
-	/*int start = map(other->x - other->r, other->y - other->r);
-	int line = map(other->x + other->r, other->y - other->r);
-	int end = map(other->x + other->r, other->y + other->r);
-
-	for (int i = start; i <= end; i++)
-	{
-		if (i > line)
-		{
-			start += n;
-			line += n;
-			i = start;
-		}
-
-		lists[i].push_front(other);
-	}*/
 	lists[map(other->x - other->r, other->y - other->r)].push_front(other);
 	lists[map(other->x + other->r, other->y - other->r)].push_front(other);
 	lists[map(other->x - other->r, other->y + other->r)].push_front(other);
