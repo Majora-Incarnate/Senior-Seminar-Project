@@ -48,9 +48,9 @@ struct Event_Handler {
 struct Keyboard {
         static void Reset_Key_Events();
 
-        static const char KEY_PRESSED_INDEX = 0;
-        static const char KEY_RELEASED_INDEX = 1;
-        static const char KEY_DOWN_INDEX = 2;
+        static const int KEY_PRESSED_INDEX = 0;
+        static const int KEY_RELEASED_INDEX = 1;
+        static const int KEY_DOWN_INDEX = 2;
 
         static bool key_state[3][283];
 };
@@ -60,17 +60,17 @@ struct Keyboard {
 struct Mouse {
         static void Reset_Button_Events();
 
-        static const char BUTTON_PRESSED_INDEX = 0;
-        static const char BUTTON_RELEASED_INDEX = 1;
-        static const char BUTTON_DOWN_INDEX = 2;
+        static const int BUTTON_PRESSED_INDEX = 0;
+        static const int BUTTON_RELEASED_INDEX = 1;
+        static const int BUTTON_DOWN_INDEX = 2;
 
-        static const char MOUSE_WHEEL_UP = 0;
-        static const char MOUSE_WHEEL_DOWN = 1;
+        static const int MOUSE_WHEEL_UP = 0;
+        static const int MOUSE_WHEEL_DOWN = 1;
 
-        static const char RIGHT_BUTTON_INDEX = 0;
-        static const char MIDDLE_BUTTON_INDEX = 1;
-        static const char LEFT_BUTTON_INDEX = 2;
-        static const char MOUSE_WHEEL_INDEX = 2;
+        static const int RIGHT_BUTTON_INDEX = 0;
+        static const int MIDDLE_BUTTON_INDEX = 1;
+        static const int LEFT_BUTTON_INDEX = 2;
+        static const int MOUSE_WHEEL_INDEX = 2;
 
         static bool button_state[3][4];
         static float mouse_x;
