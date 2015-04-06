@@ -3,8 +3,8 @@
 
 
 const int Quad_Tree::subdivision_count = 4;
-const int Quad_Tree::depth_limit = 5;
-const int Quad_Tree::item_limit = 4;
+const int Quad_Tree::depth_limit = 3;
+const int Quad_Tree::item_limit = 16;
 
 
 
@@ -100,38 +100,20 @@ void Quad_Tree::Insert(Object * other)
 	{
 		objects.push_front(other);
 
-		if (objects.size() >= Quad_Tree::item_limit && depth + 1 < Quad_Tree::depth_limit)
+		if (depth + 1 < Quad_Tree::depth_limit && objects.size() >= Quad_Tree::item_limit)
 			Subdivide();
 	}
 	else
 	{
-		bool flag = true;
-
 		if (divisions[0]->Within(other))
-		{
-			flag = false;
 			divisions[0]->Insert(other);
-		}
-
-		if (divisions[1]->Within(other))
-		{
-			flag = false;
+		else if (divisions[1]->Within(other))
 			divisions[1]->Insert(other);
-		}
-
-		if (divisions[2]->Within(other))
-		{
-			flag = false;
+		else if (divisions[2]->Within(other))
 			divisions[2]->Insert(other);
-		}
-
-		if (divisions[3]->Within(other))
-		{
-			flag = false;
+		else if (divisions[3]->Within(other))
 			divisions[3]->Insert(other);
-		}
-
-		if (flag)
+		else
 			objects.push_front(other);
 	}
 }
@@ -145,11 +127,9 @@ int Quad_Tree::Test(Object * other, int & c)
 	int temp = 0;
 
 	if (divisions[0] != NULL)
-	{
 		for (int i = 0; i < subdivision_count; i++)
 			if (divisions[i]->Intersects(other))
 				temp += divisions[i]->Test(other, c);
-	}
 
 	for (std::list<Object *>::iterator it = objects.begin(); it != objects.end(); ++it)
 	{

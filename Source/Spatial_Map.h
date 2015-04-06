@@ -1,5 +1,5 @@
-#ifndef HR_TREE_H
-#define HR_TREE_H
+#ifndef SPATIAL_MAP_H
+#define SPATIAL_MAP_H
 
 
 
@@ -10,17 +10,18 @@
 
 
 
-class HR_Tree
+class Spatial_Map
 {
 public:
-	HR_Tree();
-	~HR_Tree();
+	Spatial_Map();
+	~Spatial_Map();
 
 	void insert(Object *);
 	int search(Object *, int &);
 
 private:
 	static const int n;
+	static const int max_n;
 
 	static inline int map(float, float);
 

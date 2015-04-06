@@ -31,8 +31,8 @@ private:
 	static const int item_limit;
 
 	Quad_Tree ** divisions;
-	int depth;
 	float x, y, w, h;
+	int depth;
 	Color c;
 	std::list<Object *> objects;
 };

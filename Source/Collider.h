@@ -27,6 +27,8 @@ public:
 	void Subdivide();
 	bool Intersects(const Collider *) const;
 	bool Test(const Collider *) const;
+	
+	static bool DRAW_COLLIDING_OBJECTS;
 
 private:
 	static const int NUMBER_OF_CHILDREN;

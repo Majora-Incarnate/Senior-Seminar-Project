@@ -5,18 +5,15 @@
 #include "Clock.h"
 #include "System.h"
 #include "Quad_Tree.h"
-#include "HR_Tree.h"
-
-
-
-#define num_threads 2
+#include "Spatial_Map.h"
+#include "Config.h"
 
 
 
 Application::Application() {
     is_running = true;
 
-    number_of_objects = 333;
+    number_of_objects = Config::NUMBER_OF_OBJECTS;
 
     double_for_average = 0.0;
     multiprocess_average = 0.0;
@@ -26,7 +23,7 @@ Application::Application() {
 
     circles = new Object[number_of_objects];
 
-    omp_set_num_threads(num_threads);
+    omp_set_num_threads(Config::NUMBER_OF_THREADS);
 }
 
 
@@ -110,23 +107,30 @@ void Application::Loop() {
 
     double calc_time = omp_get_wtime();
 
+    Collider::DRAW_COLLIDING_OBJECTS = true;
+
     for (int i = 0; i < number_of_objects - 1; i++)
     	for (int j = i + 1; j < number_of_objects; j++)
     		if (circles[i].Intersects(circles[j]))
 				collision_count++;
 
+    Collider::DRAW_COLLIDING_OBJECTS = false;
+
     calc_time = omp_get_wtime() - calc_time;
     double_for_average += calc_time;
 
-    if (frame_count >= System::fps_limit)
+    if (frame_count >= System::fps_limit && Config::PRINT_DOUBLE_FOR_AVERAGE)
     {
         printf("Double For Average Time: %f sec\n", double_for_average / frame_count);
         double_for_average = 0.0;
     }
 
-    // printf("Collision Count: %d\t", collision_count);
-    // printf("Comparison Count: %d\t", (number_of_objects * (number_of_objects + 1)) / 2);
-    // printf("Double For Average Time: %f sec\n", calc_time);
+    if (Config::PRINT_DOUBLE_FOR_FRAME)
+    {
+        printf("Collision Count: %d\t", collision_count);
+        printf("Comparison Count: %d\t", (number_of_objects * (number_of_objects + 1)) / 2);
+        printf("Double For Average Time: %f sec\n", calc_time);
+    }
     //====================================================//
     //====================================================//
     //====================================================//
@@ -161,15 +165,18 @@ void Application::Loop() {
     calc_time = omp_get_wtime() - calc_time;
     multiprocess_average += calc_time;
 
-    if (frame_count >= System::fps_limit)
+    if (frame_count >= System::fps_limit && Config::PRINT_MULTITHREAD_AVERAGE)
     {
         printf("Multithreaded Average Time: %f sec\n", multiprocess_average / frame_count);
         multiprocess_average = 0.0;
     }
 
-    //printf("Collision Count: %d\t", collision_count);
-    //printf("Comparison Count: %d\t", (number_of_objects * (number_of_objects + 1)) / 2);
-    //printf("Multithreaded Time: %f sec\n", calc_time);*/
+    if (Config::PRINT_MULTITHREAD_FRAME)
+    {
+        printf("Collision Count: %d\t", collision_count);
+        printf("Comparison Count: %d\t", (number_of_objects * (number_of_objects + 1)) / 2);
+        printf("Multithreaded Time: %f sec\n", calc_time);
+    }
     //====================================================//
     //====================================================//
     //====================================================//
@@ -191,7 +198,8 @@ void Application::Loop() {
     for (int i = 0; i < number_of_objects; i++)
         blah.Insert(&circles[i]);
 
-    //blah.Render();
+    if (Config::DRAW_QUADTREE)
+        blah.Render();
 
     //calc_time = omp_get_wtime();
 
@@ -201,15 +209,18 @@ void Application::Loop() {
     calc_time = omp_get_wtime() - calc_time;
     quad_tree_average += calc_time;
 
-    if (frame_count >= System::fps_limit)
+    if (frame_count >= System::fps_limit && Config::PRINT_QUADTREE_AVERAGE)
     {
         printf("Quad Tree Average Time: %f sec\n", quad_tree_average / frame_count);
         quad_tree_average = 0.0;
     }
 
-    // printf("Collision Count: %d\t", collision_count);
-    // printf("Comparison Count: %d\t", comparison_count);
-    // printf("Quad Tree Time: %f sec\n", calc_time);
+    if (Config::PRINT_QUADTREE_FRAME)
+    {
+        printf("Collision Count: %d\t", collision_count);
+        printf("Comparison Count: %d\t", comparison_count);
+        printf("Quad Tree Time: %f sec\n", calc_time);
+    }
     //====================================================//
     //====================================================//
     //====================================================//
@@ -226,26 +237,29 @@ void Application::Loop() {
 
     calc_time = omp_get_wtime();
 
-    HR_Tree hrtree;
+    Spatial_Map smap;
 
     for (int i = 0; i < number_of_objects; i++)
-        hrtree.insert(&circles[i]);
+        smap.insert(&circles[i]);
 
     for (int i = 0; i < number_of_objects; i++)
-        collision_count += hrtree.search(&circles[i], comparison_count);
+        collision_count += smap.search(&circles[i], comparison_count);
 
     calc_time = omp_get_wtime() - calc_time;
     hilbert_rtree_average += calc_time;
 
-    if (frame_count >= System::fps_limit)
+    if (frame_count >= System::fps_limit && Config::PRINT_SPATIAL_MAP_AVERAGE)
     {
         printf("Index Tree Average Time: %f sec\n", hilbert_rtree_average / frame_count);
         hilbert_rtree_average = 0.0;
     }
 
-    // printf("Collision Count: %d\t", collision_count);
-    // printf("Comparison Count: %d\t", comparison_count);
-    // printf("Index Tree Time: %f sec\n", calc_time);
+    if (Config::PRINT_SPATIAL_MAP_FRAME)
+    {
+        printf("Collision Count: %d\t", collision_count);
+        printf("Comparison Count: %d\t", comparison_count);
+        printf("Spatial Map Time: %f sec\n", calc_time);
+    }
     //====================================================//
     //====================================================//
     //====================================================//

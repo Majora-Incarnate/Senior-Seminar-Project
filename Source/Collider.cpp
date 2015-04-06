@@ -1,8 +1,10 @@
 #include "Collider.h"
+#include "Config.h"
 
 
 
 const int Collider::NUMBER_OF_CHILDREN = 4;
+bool Collider::DRAW_COLLIDING_OBJECTS = false;
 
 
 
@@ -104,8 +106,11 @@ bool Collider::Test(const Collider * rhs) const
 			for (int i = 0; i < NUMBER_OF_CHILDREN; i++)
 				if (rhs->children[i]->Test(this))
 				{
-					//Video_Engine::DrawCircle(x, y, r, &COLLISION);
-					//Video_Engine::DrawCircle(rhs->x, rhs->y, rhs->r, &COLLISION);
+					if (DRAW_COLLIDING_OBJECTS)
+					{
+						Video_Engine::DrawCircle(x, y, r, &COLLISION);
+						Video_Engine::DrawCircle(rhs->x, rhs->y, rhs->r, &COLLISION);
+					}
 					return true;
 				}
 		}
@@ -114,8 +119,12 @@ bool Collider::Test(const Collider * rhs) const
 			for (int i = 0; i < NUMBER_OF_CHILDREN; i++)
 				if (children[i]->Test(rhs))
 				{
-					//Video_Engine::DrawCircle(x, y, r, &COLLISION);
-					//Video_Engine::DrawCircle(rhs->x, rhs->y, rhs->r, &COLLISION);
+					if (DRAW_COLLIDING_OBJECTS)
+					{
+						Video_Engine::DrawCircle(x, y, r, &COLLISION);
+						Video_Engine::DrawCircle(rhs->x, rhs->y, rhs->r, &COLLISION);
+					}
+
 					return true;
 				}
 		}
@@ -125,14 +134,22 @@ bool Collider::Test(const Collider * rhs) const
 				for (int j = 0; j < NUMBER_OF_CHILDREN; j++)
 					if (children[i]->Test(rhs->children[j]))
 					{
-						//Video_Engine::DrawCircle(x, y, r, &COLLISION);
-						//Video_Engine::DrawCircle(rhs->x, rhs->y, rhs->r, &COLLISION);
+						if (DRAW_COLLIDING_OBJECTS)
+						{
+							Video_Engine::DrawCircle(x, y, r, &COLLISION);
+							Video_Engine::DrawCircle(rhs->x, rhs->y, rhs->r, &COLLISION);
+						}
+
 						return true;
 					}
 		}
 		
-		//Video_Engine::DrawCircle(x, y, r, &COLLISION);
-		//Video_Engine::DrawCircle(rhs->x, rhs->y, rhs->r, &COLLISION);
+		if (DRAW_COLLIDING_OBJECTS)
+		{
+			Video_Engine::DrawCircle(x, y, r, &COLLISION);
+			Video_Engine::DrawCircle(rhs->x, rhs->y, rhs->r, &COLLISION);
+		}
+
 		return true;
 	}
 	

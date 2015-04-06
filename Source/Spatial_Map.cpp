@@ -1,27 +1,28 @@
-#include "HR_Tree.h"
+#include "Spatial_Map.h"
 #include "BTree.h"
 
 
 
-const int HR_Tree::n = 16;
+const int Spatial_Map::n = 16;
+const int Spatial_Map::max_n = 16;
 
 
 
-HR_Tree::HR_Tree()
+Spatial_Map::Spatial_Map()
 {
 	lists = new std::list<Object *>[n * n];
 }
 
 
 
-HR_Tree::~HR_Tree()
+Spatial_Map::~Spatial_Map()
 {
 	delete[] lists;
 }
 
 
 
-void HR_Tree::insert(Object * other)
+void Spatial_Map::insert(Object * other)
 {
 	lists[map(other->x - other->r, other->y - other->r)].push_front(other);
 	lists[map(other->x + other->r, other->y - other->r)].push_front(other);
@@ -31,7 +32,7 @@ void HR_Tree::insert(Object * other)
 
 
 
-int HR_Tree::search(Object * other, int & c)
+int Spatial_Map::search(Object * other, int & c)
 {
 	int start = map(other->x - other->r, other->y - other->r);
 	int line = map(other->x + other->r, other->y - other->r);
@@ -71,7 +72,7 @@ int HR_Tree::search(Object * other, int & c)
 
 
 
-inline int HR_Tree::map(float x, float y)
+inline int Spatial_Map::map(float x, float y)
 {
 	int dy = (int(y * n) / System::window_height) >= n ? (n - 1) * n : (int(y * n) / System::window_height) * n;
 	int dx = (int(x * n) / System::window_width) >= n ? (n - 1) : (int(x * n) / System::window_width);
