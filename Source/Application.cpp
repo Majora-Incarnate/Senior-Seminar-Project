@@ -97,6 +97,16 @@ void Application::Loop() {
 
 
 
+    Collider::DRAW_COLLIDING_OBJECTS = true;
+
+    for (int i = 0; i < number_of_objects - 1; i++)
+        for (int j = i + 1; j < number_of_objects; j++)
+            circles[i].Intersects(circles[j]);
+
+    Collider::DRAW_COLLIDING_OBJECTS = false;
+
+
+
     //====================================================//
     //====================================================//
     //------------BEGINNING OF DOUBLE FOR TEST------------//
@@ -107,14 +117,10 @@ void Application::Loop() {
 
     double calc_time = omp_get_wtime();
 
-    Collider::DRAW_COLLIDING_OBJECTS = true;
-
     for (int i = 0; i < number_of_objects - 1; i++)
     	for (int j = i + 1; j < number_of_objects; j++)
     		if (circles[i].Intersects(circles[j]))
 				collision_count++;
-
-    Collider::DRAW_COLLIDING_OBJECTS = false;
 
     calc_time = omp_get_wtime() - calc_time;
     double_for_average += calc_time;
