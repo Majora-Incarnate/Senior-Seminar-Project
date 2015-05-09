@@ -3,8 +3,8 @@
 
 
 const int Quad_Tree::subdivision_count = 4;
-const int Quad_Tree::depth_limit = 3;
-const int Quad_Tree::item_limit = 16;
+const int Quad_Tree::depth_limit = 4;
+const int Quad_Tree::item_limit = 8;
 
 
 

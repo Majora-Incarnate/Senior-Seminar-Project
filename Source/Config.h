@@ -7,6 +7,7 @@ struct Config
 {
 	static const int NUMBER_OF_THREADS;
 	static const int NUMBER_OF_OBJECTS;
+	static const int NUMBER_OF_SAMPLES;
 	static const bool PRINT_DOUBLE_FOR_AVERAGE;
 	static const bool PRINT_MULTITHREAD_AVERAGE;
 	static const bool PRINT_QUADTREE_AVERAGE;

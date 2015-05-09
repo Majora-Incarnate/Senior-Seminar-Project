@@ -3,6 +3,8 @@
 
 
 
+#include <vector>
+
 #include "Object.h"
 
 
@@ -30,6 +32,9 @@ private:
     double quad_tree_average;
     double hilbert_rtree_average;
     int frame_count;
+
+    std::vector<double> dataset[4];
+    int dataset_count;
 };
 
 

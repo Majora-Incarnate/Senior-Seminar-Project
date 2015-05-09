@@ -1,5 +1,24 @@
 #include "Object.h"
 
+
+
+//====================================================================================//
+//                                                                                    //
+//                                                                                    //
+//                                                                                    //
+//                                                                                    //
+//                                                                                    //
+//                                                                                    //
+// NOT MY OWN CODE, MODIFIED SLIGHTLY TO SUIT NEEDS, UNSURE OF AUTHOR                 //
+// URL = http://www.sanfoundry.com/cpp-program-implement-self-balancing-binary-tree/  //
+//                                                                                    //
+//                                                                                    //
+//                                                                                    //
+//                                                                                    //
+//                                                                                    //
+//                                                                                    //
+//====================================================================================//
+
  
 
 class SBBSTNode

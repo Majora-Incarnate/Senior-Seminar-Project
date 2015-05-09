@@ -21,9 +21,14 @@ Application::Application() {
     hilbert_rtree_average = 0.0;
     frame_count = 0;
 
+    dataset_count = 0;
+
     circles = new Object[number_of_objects];
 
     omp_set_num_threads(Config::NUMBER_OF_THREADS);
+
+    for (int i = 0; i < 4; i++)
+        dataset[i] = std::vector<double>(Config::NUMBER_OF_SAMPLES);
 }
 
 
@@ -125,9 +130,13 @@ void Application::Loop() {
     calc_time = omp_get_wtime() - calc_time;
     double_for_average += calc_time;
 
-    if (frame_count >= System::fps_limit && Config::PRINT_DOUBLE_FOR_AVERAGE)
+    if (frame_count >= System::fps_limit)
     {
-        printf("Double For Average Time: %f sec\n", double_for_average / frame_count);
+        dataset[0][dataset_count] = double_for_average / frame_count;
+
+        if (Config::PRINT_DOUBLE_FOR_AVERAGE)
+            printf("Double For Average Time: %f sec\n", double_for_average / frame_count);
+
         double_for_average = 0.0;
     }
 
@@ -171,9 +180,13 @@ void Application::Loop() {
     calc_time = omp_get_wtime() - calc_time;
     multiprocess_average += calc_time;
 
-    if (frame_count >= System::fps_limit && Config::PRINT_MULTITHREAD_AVERAGE)
+    if (frame_count >= System::fps_limit)
     {
-        printf("Multithreaded Average Time: %f sec\n", multiprocess_average / frame_count);
+        dataset[1][dataset_count] = multiprocess_average / frame_count;
+
+        if (Config::PRINT_MULTITHREAD_AVERAGE)
+            printf("Multithreaded Average Time: %f sec\n", multiprocess_average / frame_count);
+
         multiprocess_average = 0.0;
     }
 
@@ -215,9 +228,13 @@ void Application::Loop() {
     calc_time = omp_get_wtime() - calc_time;
     quad_tree_average += calc_time;
 
-    if (frame_count >= System::fps_limit && Config::PRINT_QUADTREE_AVERAGE)
+    if (frame_count >= System::fps_limit)
     {
-        printf("Quad Tree Average Time: %f sec\n", quad_tree_average / frame_count);
+        dataset[2][dataset_count] = quad_tree_average / frame_count;
+
+        if (Config::PRINT_QUADTREE_AVERAGE)
+            printf("Quad Tree Average Time: %f sec\n", quad_tree_average / frame_count);
+
         quad_tree_average = 0.0;
     }
 
@@ -254,9 +271,13 @@ void Application::Loop() {
     calc_time = omp_get_wtime() - calc_time;
     hilbert_rtree_average += calc_time;
 
-    if (frame_count >= System::fps_limit && Config::PRINT_SPATIAL_MAP_AVERAGE)
+    if (frame_count >= System::fps_limit)
     {
-        printf("Index Tree Average Time: %f sec\n", hilbert_rtree_average / frame_count);
+        dataset[3][dataset_count] = hilbert_rtree_average / frame_count;
+
+        if (Config::PRINT_SPATIAL_MAP_AVERAGE)
+            printf("Index Tree Average Time: %f sec\n", hilbert_rtree_average / frame_count);
+
         hilbert_rtree_average = 0.0;
     }
 
@@ -274,8 +295,31 @@ void Application::Loop() {
 
     if (frame_count >= System::fps_limit)
     {
-        printf("\n");
+        //printf("\n");
+        dataset_count++;
         frame_count = 0;
+    }
+
+
+
+    if (dataset_count > Config::NUMBER_OF_SAMPLES)
+    {
+        is_running = false;
+
+        for (int i = 0; i < 4; i++)
+        {
+            float temp = 0.0;
+
+            for (int j = 0; j < Config::NUMBER_OF_SAMPLES; j++)
+                temp += dataset[i][j];
+
+            dataset[i][0] = temp / Config::NUMBER_OF_SAMPLES;
+        }
+
+        printf("Total Double For Average: %f\n", dataset[0][0]);
+        printf("Total Multithreaded Average: %f\n", dataset[1][0]);
+        printf("Total Quad Tree Average: %f\n", dataset[2][0]);
+        printf("Total Spatial Map Average: %f\n\n", dataset[3][0]);
     }
 
 
